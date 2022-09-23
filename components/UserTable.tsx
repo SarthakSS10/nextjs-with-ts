@@ -1,9 +1,52 @@
-import React from 'react'
+import React ,{useState,useEffect} from 'react'
 import Table from 'react-bootstrap/Table';
+import {useDispatch,useSelector} from 'react-redux'
 import {Button} from 'react-bootstrap'
 
-const UserTable = () => {
-    let tableData = [{_id: '630cad055b4cbc141b014e92', name: 'testupdate123', uid: 'u1', __v: 0, ratings: Array(4)}]
+
+function UserTable(props) {
+  const [tableData,setTableData] = useState([])
+  // const userList = useSelector((state) => state.userList)
+  // const dispatch = useDispatch()
+
+  // const { users} = userList
+  useEffect(()=>{
+    console.log("hiiii",props);
+    setTableData(props.users)
+
+  },[props])
+
+
+  // useEffect(()=>{
+  //   console.log(props.users);
+  
+  //    dispatch(fetchUser())
+  //   setTableData(users)
+
+
+    console.log(tableData);
+
+  // },[])
+
+  const deleteButton = async(e,id) =>{
+    e.preventDefault()
+    props.onDeleteClick(id)
+    // console.log(id);
+    //  await dispatch(deleteUser(id))
+    // // console.log(users);
+    // setTableData(users)
+
+  }
+  const editButton = async(e,data) =>{
+    e.preventDefault()
+    console.log(data);
+    props.onEditClick(data)
+    //  await dispatch(deleteUser(id))
+    // // console.log(users);
+    // setTableData(users)
+
+  }
+  console.log("render");
   return (
     <div>
          <Table striped bordered hover>
@@ -19,8 +62,8 @@ const UserTable = () => {
         {
           tableData.map((data)=>(
             <tr key={data._id}>
-              <td><Button >Edit</Button></td>
-              <td><Button >Delete</Button></td>
+              <td><Button onClick={(e)=>editButton(e,data)}>Edit</Button></td>
+              <td><Button onClick={(e)=>deleteButton(e,data.uid)}>Delete</Button></td>
               <td>{data.uid}</td>
               <td>{data.name}</td>
             </tr>
