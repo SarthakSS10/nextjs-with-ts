@@ -3,6 +3,7 @@ import uuid from 'react-uuid';
 
 
 function UserDetail(props) {
+  // let userName = 
   let val = props.isEditable?props.editData.uid:`ui-${uuid().split('-')[0]}`
   const [name,setName] = useState('')
   const [editable,setEditable] = useState(true)
@@ -19,10 +20,15 @@ function UserDetail(props) {
     setName('')
     // window.location.reload(true)
     setUUID(`ui-${uuid().split('-')[0]}`)
+    setEditable(true)
+
+    // props.isEditable = false
 
   }
   useEffect(()=>{
     setUUID(props.isEditable?props.editData.uid:`ui-${uuid().split('-')[0]}`)
+    console.log(props);
+    
 
   },[props])
   return (

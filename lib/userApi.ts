@@ -1,6 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { HYDRATE } from "next-redux-wrapper";
 
+type UserResponse = User[]
+
+
 export const userApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: 'http://localhost:5000',
@@ -10,31 +13,40 @@ export const userApi = createApi({
       return action.payload[reducerPath];
     }
   },
-  tagTypes: [],
+  tagTypes: ['Users'],
   endpoints: (builder) => ({
     
-    fetchUser: builder.query({
+    fetchUser: builder.query<UserResponse, void>({
         query: () => ('/user/get'),
+        providesTags:['Users']
       }),
       addUser: builder.mutation({
         query: (val) => ({
           url: "/user/add",
           method: "POST",
-          body: {name:val.name,uid:val.uid}
-        })
+          body: {name:val.name,uid:val.uid},
+
+        }),
+        invalidatesTags:['Users']
+
       }),
       editUser: builder.mutation({
         query: (val) => ({
           url: `/user/update/${val.uid}`,
           method: "PATCH",
-          body: {name:val.name}
-        })
+          body: {name:val.name},
+        }),
+        invalidatesTags:['Users']
+
       }),
       deleteUser: builder.mutation({
         query: (id) => ({
           url: `/user/delete/${id}`,
-          method: "DELETE"
-        })
+          method: "DELETE",
+
+        }),
+        invalidatesTags:['Users']
+
       })
   }),
   

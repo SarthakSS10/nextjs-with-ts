@@ -7,7 +7,7 @@ import User from './user'
 const Home: NextPage = () => {
   return (
     <>
-    <User/>
+    {/* <User/> */}
     </>
   )
 }
