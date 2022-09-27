@@ -4,12 +4,16 @@ import {useDispatch,useSelector} from 'react-redux'
 import {Button} from 'react-bootstrap'
 
 
-function UserTable(props) {
-  const [tableData,setTableData] = useState([])
-  // const userList = useSelector((state) => state.userList)
-  // const dispatch = useDispatch()
+interface Propsvalue {
+  users: any
+  onDeleteClick: (id:string) => void;
+  onEditClick: (data:{ _id: string; name: string }) => void;
 
-  // const { users} = userList
+}
+
+const  UserTable: React.FC<Propsvalue> = (props) => {
+  const [tableData,setTableData] = useState([])
+ 
   useEffect(()=>{
     console.log("hiiii",props);
     setTableData(props.users)
@@ -17,34 +21,16 @@ function UserTable(props) {
   },[props])
 
 
-  // useEffect(()=>{
-  //   console.log(props.users);
-  
-  //    dispatch(fetchUser())
-  //   setTableData(users)
-
-
-    console.log(tableData);
-
-  // },[])
-
-  const deleteButton = async(e,id) =>{
+  const deleteButton = async(e:any,id:string) =>{
     e.preventDefault()
     props.onDeleteClick(id)
-    // console.log(id);
-    //  await dispatch(deleteUser(id))
-    // // console.log(users);
-    // setTableData(users)
+    
 
   }
-  const editButton = async(e,data) =>{
+  const editButton = async(e:any,data:{ _id: string; name: string }) =>{
     e.preventDefault()
     console.log(data);
     props.onEditClick(data)
-    //  await dispatch(deleteUser(id))
-    // // console.log(users);
-    // setTableData(users)
-
   }
   console.log("render");
   return (
@@ -60,7 +46,7 @@ function UserTable(props) {
       </thead>
       <tbody>
         {
-          tableData.map((data)=>(
+          tableData.map((data:{_id:string,uid:string,name:string})=>(
             <tr key={data._id}>
               <td><Button onClick={(e)=>editButton(e,data)}>Edit</Button></td>
               <td><Button onClick={(e)=>deleteButton(e,data.uid)}>Delete</Button></td>

@@ -2,14 +2,21 @@ import React , {useState,useEffect} from 'react'
 import uuid from 'react-uuid';
 
 
-function UserDetail(props) {
+interface Propsvalue {
+  isEditable: boolean
+  editData: any;
+  onFormSubmit: any;
+
+}
+
+const UserDetail:React.FC<Propsvalue> = (props) =>{
   // let userName = 
   let val = props.isEditable?props.editData.uid:`ui-${uuid().split('-')[0]}`
   const [name,setName] = useState('')
   const [editable,setEditable] = useState(true)
 
   const [uuidData,setUUID] = useState(val)
-  const handleChange = (event) => {
+  const handleChange = (event:any) => {
     // event.preventDefault()
     setEditable(false)
     setName(event.target.value)

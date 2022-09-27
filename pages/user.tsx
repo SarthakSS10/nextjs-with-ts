@@ -15,13 +15,18 @@ function User (){
     const [onFormEdit,setFormEdit] = useState(false)
     const [onEditData,setEditData] = useState({})
     // const userList = useSelector((state:any) => state.userList)
-    const dispatch = useDispatch()
+    // const dispatch = useDispatch()
   
     // const { users} = userList
         const { data:dataAdd, error, isLoading } = useFetchUserQuery()
-    const [addPost , result] = useAddUserMutation()
-    const [deleteTheUser , resultfordelete] = useDeleteUserMutation()
-    const [editTheUser , resultforEdit] = useEditUserMutation()
+    const [addPost , {data:userResponse,isSuccess:isUserSuccess,isError:isUserError}] = useAddUserMutation()
+    const [deleteTheUser , {data:deleteResponse}] = useDeleteUserMutation()
+    const [editTheUser , {data:editResponse}] = useEditUserMutation()
+
+
+    useEffect(()=>{
+
+    },[])
 
    
 
@@ -55,7 +60,7 @@ function User (){
         <>
         <UserDetail isEditable={onFormEdit} editData={onEditData} onFormSubmit={userDetailFormSumit}/>
         {/* <UserTable users={users} onDeleteClick={onDelete} onEditClick={onEdit}/> */}
-        <UserTable users={isLoading?[]:dataAdd} onDeleteClick={onDelete} onEditClick={onEdit}/>
+        <UserTable users={isLoading|| error?[]:dataAdd} onDeleteClick={onDelete} onEditClick={onEdit}/>
 
         </>
     )
@@ -67,7 +72,7 @@ function User (){
 
 //     //   const name = context.params?.name;
 //     // //   if (typeof name === "string") {
-//         store.dispatch(fetchUser.initiate(''));    //   }
+//         store.dispatch(fetchUser.initiate());    //   }
   
 //       let val = await Promise.all(getRunningOperationPromises());
 //       console.log("valxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",val[0]);
