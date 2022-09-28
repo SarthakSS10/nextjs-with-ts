@@ -2,6 +2,7 @@ import React ,{useState,useEffect} from 'react'
 import {useDispatch,useSelector} from 'react-redux'
 import UserDetail from "../components/UserDetail"
 import UserTable from "../components/UserTable"
+
 import { wrapper } from "../lib/store";
 import {
     fetchUser,
@@ -19,6 +20,8 @@ function User (){
   
     // const { users} = userList
         const { data:dataAdd, error, isLoading } = useFetchUserQuery()
+        console.log("ddddddddddddddddd",dataAdd);
+        
     const [addPost , {data:userResponse,isSuccess:isUserSuccess,isError:isUserError}] = useAddUserMutation()
     const [deleteTheUser , {data:deleteResponse}] = useDeleteUserMutation()
     const [editTheUser , {data:editResponse}] = useEditUserMutation()

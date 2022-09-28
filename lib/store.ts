@@ -1,6 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { createWrapper } from "next-redux-wrapper";
 import { userApi } from "./userApi";
+import { getArtistData} from './artistApi'
+import { getAlbumData} from './albumApi'
 import thunk from 'redux-thunk'
 import userSlice from './userSlice'
 
@@ -11,8 +13,13 @@ export const makeStore = () =>
     reducer: {
         userList: userSlice,
       [userApi.reducerPath]: userApi.reducer,
+      [getArtistData.reducerPath]:getArtistData.reducer,
+      [getAlbumData.reducerPath]:getAlbumData.reducer,
+
+
+
     },
-    middleware: (gDM) => gDM().concat(userApi.middleware),
+    middleware: (gDM) => gDM().concat([userApi.middleware,getArtistData.middleware,getAlbumData.middleware]),
     // middleware: [thunk],
 
   });

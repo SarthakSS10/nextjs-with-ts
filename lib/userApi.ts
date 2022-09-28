@@ -22,6 +22,9 @@ export const userApi = createApi({
         query: () => ('/user/get'),
         providesTags:['Users']
       }),
+      fetchUserOnId: builder.query<IUser[], void>({
+        query: (id) => (`/user/get/${id}`),
+      }),
       addUser: builder.mutation<void, { name: string,uid:string }>({
         query: (val) => ({
           url: "/user/add",
@@ -37,6 +40,15 @@ export const userApi = createApi({
           url: `/user/update/${val.uid}`,
           method: "PATCH",
           body: {name:val.name},
+        }),
+        invalidatesTags:['Users']
+
+      }),
+      editRatings: builder.mutation<void, { albumId: string,rating: string,uid:string }>({
+        query: (val) => ({
+          url: `/user/updateAlbum/${val.uid}`,
+          method: "PATCH",
+          body: {rating:val.rating,albumId:val.albumId},
         }),
         invalidatesTags:['Users']
 
@@ -60,8 +72,10 @@ export const {
   useAddUserMutation,
   useDeleteUserMutation,
   useEditUserMutation,
+  useEditRatingsMutation,
+  useFetchUserOnIdQuery,
   util: { getRunningOperationPromises },
 } = userApi;
 
 // export endpoints for use in SSR
-export const { fetchUser } = userApi.endpoints;
+export const { fetchUser ,fetchUserOnId } = userApi.endpoints;
