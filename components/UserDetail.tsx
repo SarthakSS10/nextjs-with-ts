@@ -25,11 +25,9 @@ const UserDetail:React.FC<Propsvalue> = (props) =>{
   const onSubmitForm = () =>{
     props.onFormSubmit(name,uuidData,props.isEditable)
     setName('')
-    // window.location.reload(true)
     setUUID(`ui-${uuid().split('-')[0]}`)
     setEditable(true)
 
-    // props.isEditable = false
 
   }
   useEffect(()=>{

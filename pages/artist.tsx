@@ -9,7 +9,7 @@ import ArtistTable from '../components/ArtistTable'
 
 
 function Artist() {
-  const { data:dataForArist, error, isLoading } = useFetchArtistQuery('')
+  const { data:dataForArist, error, isLoading } = useFetchArtistQuery()
   const [addArtist , result] = useAddArtistMutation()
   const [deleteTheArtist , resultfordelete] = useDeleteArtistMutation()
   const [editTheArtist , resultforEdit] = useEditArtistMutation()

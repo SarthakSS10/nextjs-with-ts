@@ -1,6 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { HYDRATE } from "next-redux-wrapper";
 
+interface IArtist {
+  id: number,
+  name: string
+}
+
 
 export const getAlbumData = createApi({
     reducerPath: 'getAlbumData',
@@ -13,12 +18,12 @@ export const getAlbumData = createApi({
     tagTypes: ['Albums'],
     endpoints: (builder) => ({
      
-        fetchAlbum: builder.query({
+        fetchAlbum: builder.query<IArtist[], void>({
         query: () => ('/album/get'),
         providesTags:['Albums']
 
       }), 
-      addAlbum: builder.mutation({
+      addAlbum: builder.mutation<void, { name: string , artist:string,url:string}>({
         query: (val) => ({
           url: "/album/add",
           method: "POST",
@@ -27,7 +32,7 @@ export const getAlbumData = createApi({
         invalidatesTags:['Albums']
 
       }),
-      editAlbum: builder.mutation({
+      editAlbum: builder.mutation<void, { name: string,uid:string }>({
         query: (val) => ({
           url: `/album/update/${val.uid}`,
           method: "PATCH",
@@ -36,7 +41,7 @@ export const getAlbumData = createApi({
         invalidatesTags:['Albums']
 
       }),
-      deleteAlbum: builder.mutation({
+      deleteAlbum: builder.mutation<void, string >({
         query: (id) => ({
           url: `/album/delete/${id}`,
           method: "DELETE"

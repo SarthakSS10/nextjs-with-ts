@@ -1,37 +1,22 @@
 import React ,{useState,useEffect} from 'react'
 import AlbumDetail from '../components/AlbumDetail'
 import AlbumTable from '../components/AlbumTable'
-// import { fetchUser ,deleteUser,editUser, adduser} from '../../actions/albumAction';
-// import {fetchUser as artistFetch} from '../../actions/artistAction'
-// import {deleteAlbum ,addAlbum, fetchAlbum,editAlbum } from '../../service/albumService'
-// import {fetchArtist as artistFetch } from '../../service/artistService'
 import {useAddAlbumMutation,useDeleteAlbumMutation,useEditAlbumMutation,useFetchAlbumQuery} from '../lib/albumApi'
 import { wrapper } from "../lib/store";
 import {fetchArtist,getRunningOperationPromises} from '../lib/artistApi'
 
 
 
-function Album(props) {
-    const { data, error, isLoading } = useFetchAlbumQuery('')
+function Album(props:any) {
+    const { data, error, isLoading } = useFetchAlbumQuery()
     console.log("ddddddddddddddddddddddddddd",data);
     
     const [addAlbum , {data:userResponse,isSuccess:isUserSuccess,isError:isUserError}] = useAddAlbumMutation()
     const [deleteAlbum , {data:deleteResponse}] = useDeleteAlbumMutation()
     const [editAlbum , {data:editResponse}] = useEditAlbumMutation()
 
-  // const [tableData,setTableData] = useState([])
   const [onFormEdit,setFormEdit] = useState(false)
-  const [onEditData,setEditData] = useState({})
-//   const albumList = useSelector((state) => state.albumList)
-//   const artistList = useSelector((state) => state.artistList)
-
-//   const dispatch = useDispatch()
-
-//   const { album } = albumList
-//   const { artists} = artistList
-
-//   // const artistPresent = artistList.artists
-
+  const [onEditData,setEditData] = useState<any>({})
 
   useEffect(()=>{
     console.log("whats1",data);
@@ -40,30 +25,27 @@ function Album(props) {
 
  },[data])
 
-//  console.log("whats",users);
-//  setTableData(users)
 
-const onDelete = (id)=>{
+const onDelete = (id:string)=>{
   console.log(id);
   deleteAlbum(id)
 
 }
 
-const onEdit = (data)=>{
+const onEdit = (data:Object)=>{
   console.log(data);
-  // dispatch(editUser(id,name))
   setFormEdit(true)
   setEditData(data)
 
 }
 
-const userDetailFormSumit = (name,artist,isEditable,url) =>{
+const userDetailFormSumit = (name:string,artist:any,isEditable:boolean,url:string) =>{
   console.log(name,artist,isEditable);
   if(!isEditable){
     addAlbum({artist:artist.value,name,url})
   } 
   else{
-    editAlbum(onEditData._id,name)
+    editAlbum({uid:onEditData._id,name})
 
   }
 
@@ -87,15 +69,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
     (store) => async () => {
         console.log("hiiiiii");
 
-    //   const name = context.params?.name;
-    // //   if (typeof name === "string") {
-        store.dispatch(fetchArtist.initiate(''));  
-
-       
-          //   }
-        // let b = await Promise.all([xfff])
-        // console.log("ssssssssssssssssssssssssssssssssssssssssssssssss",b);
-        
+        store.dispatch(fetchArtist.initiate());  
   
       let val = await Promise.all(getRunningOperationPromises());
       console.log("valxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",val[0]);

@@ -11,6 +11,13 @@ a {
   text-decoration: none;
 }
 
+.on {
+  color: #000;
+}
+.off {
+  color: #ccc;
+}
+
 * {
   box-sizing: border-box;
 }

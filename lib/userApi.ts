@@ -15,7 +15,7 @@ export const userApi = createApi({
       return action.payload[reducerPath];
     }
   },
-  tagTypes: ['Users'],
+  tagTypes: ['Users','UsersId'],
   endpoints: (builder) => ({
     
     fetchUser: builder.query<IUser[], void>({
@@ -24,6 +24,11 @@ export const userApi = createApi({
       }),
       fetchUserOnId: builder.query<IUser[], void>({
         query: (id) => (`/user/get/${id}`),
+        providesTags:['UsersId']
+
+      }),
+      getAlbumRating: builder.query({
+        query: () => ('/user/getranking'),
       }),
       addUser: builder.mutation<void, { name: string,uid:string }>({
         query: (val) => ({
@@ -50,7 +55,7 @@ export const userApi = createApi({
           method: "PATCH",
           body: {rating:val.rating,albumId:val.albumId},
         }),
-        invalidatesTags:['Users']
+        invalidatesTags:['UsersId']
 
       }),
       deleteUser: builder.mutation<void, string >({
@@ -74,6 +79,7 @@ export const {
   useEditUserMutation,
   useEditRatingsMutation,
   useFetchUserOnIdQuery,
+  useGetAlbumRatingQuery,
   util: { getRunningOperationPromises },
 } = userApi;
 
